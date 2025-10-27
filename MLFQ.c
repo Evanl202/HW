@@ -44,6 +44,7 @@ void mlfq(Process processes[], int n) {
           current_head = &q0_head;
           current_tail = &q0_tail;
       }
+    //if no processes, increment time and check
       if (!p) {
         time++;
         for (int i = 0; i < n; i++) {
@@ -83,6 +84,9 @@ void mlfq(Process processes[], int n) {
         p->waiting_time = p->turnaround_time - p->burst_time;
 
         completed++;
+        if (current_head == &q2_head) finished_queue[p->pid - 1] = 1;
+        else if (current_head == &q1_head) finished_queue[p->pid - 1] = 2;
+        else finished_queue[p->pid - 1] = 3;
       } else {
           if(current_head == &q2_head)
             enqueue(&q1_head, &q1_tail, p);
@@ -95,5 +99,22 @@ void mlfq(Process processes[], int n) {
   time_line[count] = time;
 
   printGantt(gantt, time_line, count);
+
+    // Print finished queues
+  printf("\nQueue 1: ");
+  for (int i = 0; i < n; i++)
+    if (finished_queue[i] == 1) printf("P%d | ", i + 1);
+  printf("\n");
+
+  printf("Queue 2: ");
+  for (int i = 0; i < n; i++)
+    if (finished_queue[i] == 2) printf("P%d | ", i + 1);
+  printf("\n");
+
+  printf("Queue 3: ");
+  for (int i = 0; i < n; i++)
+    if (finished_queue[i] == 3) printf("P%d | ", i + 1);
+  printf("\n");
+
   printResults(processes, n);
 }
