@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "process.h"
 #include "queue.h"
 
 //Linked list implementation of enqueue from tail
