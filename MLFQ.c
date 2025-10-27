@@ -16,7 +16,7 @@ void mlfq(Process processes[], int n) {
   int count = 0;
 //tracks when queue finishes and where to map PID to
   int finished_queue[n];
-  int pid_map_idx[1000];
+  int pid_index_map[1000];
   
   for (int i = 0; i < 1000; i++) pid_index_map[i] = -1;
   for (int i = 0; i < n; i++) {
