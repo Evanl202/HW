@@ -14,6 +14,8 @@ void mlfq(Process processes[], int n) {
   int time = 0, completed = 0;
   int gantt[200], time_line[200];
   int count = 0;
+
+  finished_queue[i] = 0;
   
   for (int i = 0; i < n; i++) {
     processes[i].remaining_time = processes[i].burst_time;
