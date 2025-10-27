@@ -1,7 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "process.h"
-#include "utils.h"
 
 //prints result 
 void printResults (Process processes[], int n) {
