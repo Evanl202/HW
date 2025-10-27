@@ -8,10 +8,10 @@ void roundRobin(Process processes[], int n, int quantum) {
   int time = 0, completed = 0;
   int gantt[100], time_line[100];
   int count = 0;
-  // for (int i = 0; i < n; i++) {
-  //   processes[i].remaining_time = processes[i].burst_time;
-  //   processes[i].completed = 0;
-  // }
+  for (int i = 0; i < n; i++) {
+    processes[i].remaining_time = processes[i].burst_time;
+    processes[i].completed = 0;
+  }
   for (int i = 0; i < n; i++) {
       if (processes[i].arrival_time == 0) {
           enqueue(&head, &tail, &processes[i]);
@@ -35,11 +35,19 @@ void roundRobin(Process processes[], int n, int quantum) {
       p->remaining_time -= exec_time;
 
       for (int i = 0; i < n; i++) {
-        if(processes[i].arrival_time <= time &&
-          !processes[i].completed &&
-          processes[i].remaining_time == processes[i].burst_time &&
-          &processes[i] != p) {
-          enqueue(&head, &tail, &processes[i]);
+        if (!processes[i].completed && processes[i].arrival_time <= time) {
+          int inQueue = 0;
+          Node *temp = head;
+          while (temp) {
+            if (temp->process == &processes[i]) {
+              inQueue = 1;
+              break;
+            }
+            temp = temp->next;
+              
+          }
+          if (!inQueue && &processes[i] != p)
+            enqueue(&head, &tail, &processes[i]);
         }
       }
       
@@ -55,9 +63,7 @@ void roundRobin(Process processes[], int n, int quantum) {
     } else {
         time++;
         for (int i = 0; i < n; i++) {
-          if(processes[i].arrival_time <= time &&
-            !processes[i].completed &&
-            processes[i].remaining_time == processes[i].burst_time) {
+          if (!processes[i].completed && processes[i].arrival_time <= time) {
             enqueue(&head, &tail, &processes[i]);
           }
         }
