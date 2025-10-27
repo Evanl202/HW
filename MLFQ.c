@@ -90,8 +90,8 @@ void mlfq(Process processes[], int n) {
         completed++;
 
         int idx = pid_index_map[p->pid];
-        if (current_head == &q2_head) finished_queue[idx] = 1;
-        else if (current_head == &q1_head) finished_queue[idx] = 2;
+        if (current_head == &q2_head && p->remaining_time == 0) finished_queue[idx] = 1;
+        else if (current_head == &q1_head && p->remaining_time == 0) finished_queue[idx] = 2;
         else finished_queue[idx] = 3;
       } else {
           if(current_head == &q2_head)
