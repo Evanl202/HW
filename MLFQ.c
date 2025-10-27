@@ -14,9 +14,11 @@ void mlfq(Process processes[], int n) {
   int time = 0, completed = 0;
   int gantt[200], time_line[200];
   int count = 0;
-
+//tracks when queue finishes and where to map PID to
   int finished_queue[n];
+  int pid_map_idx[1000];
   
+  for (int i = 0; i < 1000; i++) pid_index_map[i] = -1;
   for (int i = 0; i < n; i++) {
     processes[i].remaining_time = processes[i].burst_time;
     processes[i].completed = 0;
@@ -85,11 +87,12 @@ void mlfq(Process processes[], int n) {
         p-> completed = 1;
         p->turnaround_time = time - p->arrival_time;
         p->waiting_time = p->turnaround_time - p->burst_time;
-
         completed++;
-        if (current_head == &q2_head) finished_queue[p->pid - 1] = 1;
-        else if (current_head == &q1_head) finished_queue[p->pid - 1] = 2;
-        else finished_queue[p->pid - 1] = 3;
+
+        int idx = pid_index_map[p->pid];
+        if (current_head == &q2_head) finished_queue[idx] = 1;
+        else if (current_head == &q1_head) finished_queue[idx] = 2;
+        else finished_queue[idx] = 3;
       } else {
           if(current_head == &q2_head)
             enqueue(&q1_head, &q1_tail, p);
@@ -106,17 +109,17 @@ void mlfq(Process processes[], int n) {
     // Print finished queues
   printf("\nQueue 1: ");
   for (int i = 0; i < n; i++)
-    if (finished_queue[i] == 1) printf("P%d | ", i + 1);
+    if (finished_queue[i] == 1) printf("P%d | ", processes[i].pid);
   printf("\n");
 
   printf("Queue 2: ");
   for (int i = 0; i < n; i++)
-    if (finished_queue[i] == 2) printf("P%d | ", i + 1);
+    if (finished_queue[i] == 2) printf("P%d | ", processes[i].pid);
   printf("\n");
 
   printf("Queue 3: ");
   for (int i = 0; i < n; i++)
-    if (finished_queue[i] == 3) printf("P%d | ", i + 1);
+    if (finished_queue[i] == 3) printf("P%d | ", processes[i].pid);
   printf("\n");
 
   printResults(processes, n);
