@@ -94,9 +94,9 @@ void mlfq(Process processes[], int n) {
       
           int idx = pid_index_map[p->pid]; // map PID to index
           // Assign finished queue based on the quantum used
-          if (current_quantum == Q2) finished_queue[idx] = 1;
-          else if (current_quantum == Q1) finished_queue[idx] = 2;
-          else finished_queue[idx] = 3;
+          if (current_head == &q2_head) finished_queue[idx] = 1; // finished in Q2
+          else if (current_head == &q1_head) finished_queue[idx] = 2; // finished in Q1
+          else finished_queue[idx] = 3; // finished in Q0
       } else {
           // Demote unfinished processes
           if (current_head == &q2_head) enqueue(&q1_head, &q1_tail, p);
