@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "process.h"
-#include "utils.h"
+void roundRobin(Process processes[], int n, int quantum);
+void mlfq(Process processes[], int n);
 
 int main() {
   Process processes[] = {
