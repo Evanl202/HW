@@ -1,6 +1,20 @@
 #include <stdio.h>
 #include "process.h"
 
+void printGantt (int gantt[], int time_line[], int count) {
+  printf("\nGantt Chart:\n");
+  //loops through pid and prints 
+  for(int i = 0; i < count; i++) {
+    printf("| P%d ", gantt[i]);
+  }
+  printf("|\n");
+
+  for(int i = 0; i <= count; i++) { //loops through pid completion time and prints
+    printf("%d  ", time_line[i]);
+  }
+  printf("\n");
+}
+
 //prints result 
 void printResults (Process processes[], int n) {
   double total_wt = 0, total_tat = 0;
